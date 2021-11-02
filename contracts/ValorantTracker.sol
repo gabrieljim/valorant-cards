@@ -35,7 +35,7 @@ contract ValorantTracker is ERC1155, ChainlinkClient, Ownable {
 
         for (
             uint8 i = uint8(WEAPONS.CLASSIC);
-            i < uint8(WEAPONS.OPERATOR);
+            i <= uint8(WEAPONS.OPERATOR);
             i++
         ) {
             _mint(address(this), i, 1, "");
