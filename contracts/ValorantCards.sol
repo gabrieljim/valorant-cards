@@ -6,9 +6,13 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 
-contract ValorantTracker is ERC1155, ChainlinkClient, Ownable {
-    using Chainlink for Chainlink.Request;
+contract ValorantCards is Ownable, ERC1155, VRFConsumerBase {
+    bytes32 internal keyHash;
+    uint256 internal fee;
+
+    uint256 public randomResult;
 
     enum WEAPONS {
         CLASSIC,
@@ -30,8 +34,13 @@ contract ValorantTracker is ERC1155, ChainlinkClient, Ownable {
         OPERATOR
     }
 
-    constructor() ERC1155("") {
-        setPublicChainlinkToken();
+    constructor(
+        address _vrfCoordinator,
+        address _linkToken,
+        bytes32 _keyHash
+    ) ERC1155("") VRFConsumerBase(_vrfCoordinator, _linkToken) {
+        keyHash = _keyHash;
+        fee = 0.1 * 10**18;
 
         for (
             uint8 i = uint8(WEAPONS.CLASSIC);
@@ -40,6 +49,18 @@ contract ValorantTracker is ERC1155, ChainlinkClient, Ownable {
         ) {
             _mint(address(this), i, 1, "");
         }
+    }
+
+    function getRandomNumber() public returns (bytes32 requestId) {
+        require(LINK.balanceOf(address(this)) >= fee, "NOT_ENOUGH_LINK");
+        return requestRandomness(keyHash, fee);
+    }
+
+    function fulfillRandomness(bytes32 requestId, uint256 randomness)
+        internal
+        override
+    {
+        randomResult = randomness;
     }
 
     function uri(uint256 _tokenId)

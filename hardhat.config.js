@@ -12,7 +12,7 @@ task("fund-link", "Funds a contract with LINK")
   .addParam("contract", "The address of the contract that requires LINK")
   .addOptionalParam("linkAddress", "Set the LINK token address")
   .setAction(async (taskArgs) => {
-    const linkAddress = "0x01BE23585060835E02B77ef475b0Cc51aA1e0709";
+    const linkAddress = "0xa36085F69e2889c224210F603D836748e7dC0088";
     const contractAddr = taskArgs.contract;
     const networkId = network.name;
     console.log("Funding contract ", contractAddr, " on network ", networkId);
@@ -30,7 +30,7 @@ task("fund-link", "Funds a contract with LINK")
     ];
 
     //Fund with 0.1 LINK token
-    const amount = parseEther("0.1");
+    const amount = parseEther("1");
 
     //Get signer information
     const accounts = await hre.ethers.getSigners();
@@ -58,8 +58,8 @@ task("fund-link", "Funds a contract with LINK")
 module.exports = {
   solidity: "0.8.4",
   networks: {
-    rinkeby: {
-      url: "https://eth-rinkeby.alchemyapi.io/v2/_pL04RZSq8RzH_qoUGZJ67CuXltq1d37",
+    kovan: {
+      url: "https://eth-kovan.alchemyapi.io/v2/_pL04RZSq8RzH_qoUGZJ67CuXltq1d37",
       accounts: [process.env.PRIVATE_KEY],
     },
   },
