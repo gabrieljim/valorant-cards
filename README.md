@@ -1,15 +1,13 @@
-# Basic Sample Hardhat Project
+# Valorant Cards
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+### Get NFTs simply by playing Valorant!
 
-Try running some of the following tasks:
+This project allows players to mint NFT collectible cards for Valorant (Riot Games). 
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+It consist of an ERC1155 contract with 17 NFTs. These have been deployed and integrated into OpenSea with an IPFS called Pinata
+
+This project also integrates Chainlink to fetch player data and ChainLink's VRF to provide pseudo-randomness
+
+## Minting flow
+
+![Diagram](https://user-images.githubusercontent.com/21229805/162650640-c10715e9-4fa3-4398-9fbe-2eefc32fa138.png)
